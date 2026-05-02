@@ -1,0 +1,51 @@
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+kayakaga-api
+kayakaga-api.exe
+
+# Test files
+*.test
+*.out
+
+# Dependency directories
+vendor/
+
+# Environment files
+.env
+.env.local
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Claude Code
+.claude/
+
+# Documentation
+README.md
+kayakaga_api_prompt.md
+
+# Docker files (don't copy into image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Build artifacts
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

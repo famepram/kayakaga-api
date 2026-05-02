@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: kayakaga-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: KagaKayaKaga!
+      MYSQL_DATABASE: kayakaga_db
+      MYSQL_USER: belomKaya
+      MYSQL_PASSWORD: KagaKayaKaga!
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - kayakaga-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Kayakaga API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kayakaga-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      APP_PORT: 8080
+      APP_ENV: production
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: belomKaya
+      DB_PASSWORD: KagaKayaKaga!
+      DB_NAME: kayakaga_db
+      JWT_SECRET: finai-jwt-secret-change-in-production
+      JWT_ACCESS_EXPIRY: 15m
+      JWT_REFRESH_EXPIRY: 720h
+      API_VERSION: v1
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - kayakaga-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  kayakaga-network:
+    driver: bridge
