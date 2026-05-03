@@ -4,6 +4,7 @@ import (
 	"kayakaga-api/modules/account"
 	"kayakaga-api/modules/analytics"
 	"kayakaga-api/modules/auth"
+	"kayakaga-api/modules/chat"
 	"kayakaga-api/modules/goal"
 	"kayakaga-api/modules/masters"
 	"kayakaga-api/modules/simulate"
@@ -22,6 +23,7 @@ type Container struct {
 	Analytics  analytics.UseCase
 	Simulate   simulate.UseCase
 	Masters    masters.UseCase
+	Chat       chat.UseCase
 }
 
 func InitializeContainer(db *gorm.DB) *Container {
@@ -42,5 +44,6 @@ func InitializeContainer(db *gorm.DB) *Container {
 		Analytics:  analytics.NewUseCase(analyticsRepo),
 		Simulate:   simulate.NewUseCase(),
 		Masters:    masters.NewUseCase(mastersRepo),
+		Chat:       chat.NewChatService(db),
 	}
 }

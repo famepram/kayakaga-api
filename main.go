@@ -59,6 +59,9 @@ import (
 // @tag.name Master Data
 // @tag.description Master data endpoints
 
+// @tag.name Chat
+// @tag.description AI Chat endpoints
+
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found, using environment variables")

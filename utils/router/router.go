@@ -5,6 +5,7 @@ import (
 	"kayakaga-api/modules/account"
 	"kayakaga-api/modules/analytics"
 	"kayakaga-api/modules/auth"
+	"kayakaga-api/modules/chat"
 	"kayakaga-api/modules/goal"
 	"kayakaga-api/modules/masters"
 	"kayakaga-api/modules/simulate"
@@ -31,6 +32,7 @@ func SetupRouter(container *di.Container) *gin.Engine {
 		analytics.RegisterRoutes(protected, container.Analytics)
 		simulate.RegisterRoutes(protected, container.Simulate)
 		masters.RegisterRoutes(protected, container.Masters)
+		chat.RegisterRoutes(protected, chat.NewChatHandler(container.Chat))
 	}
 
 	return r
