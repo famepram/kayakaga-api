@@ -20,7 +20,7 @@ type chatService struct {
 	httpClient *http.Client
 }
 
-func NewChatService(db *gorm.DB) ChatUseCase {
+func NewChatService(db *gorm.DB) UseCase {
 	timeoutSecs, _ := strconv.Atoi(os.Getenv("AGENT_TIMEOUT"))
 	if timeoutSecs == 0 {
 		timeoutSecs = 60

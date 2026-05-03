@@ -11,10 +11,10 @@ import (
 )
 
 type ChatHandler struct {
-	useCase ChatUseCase
+	useCase UseCase
 }
 
-func NewChatHandler(useCase ChatUseCase) *ChatHandler {
+func NewChatHandler(useCase UseCase) *ChatHandler {
 	return &ChatHandler{useCase: useCase}
 }
 
