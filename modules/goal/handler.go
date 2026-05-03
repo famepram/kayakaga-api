@@ -181,6 +181,17 @@ func (h *handler) buildResponse(goal *mysql.Goal) *GoalResponse {
 	}
 }
 
+// ListGoalsHandler godoc
+// @Summary List goals
+// @Description Get list of user goals
+// @Tags Goals
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Success 200 {object} helper.Response{data=[]GoalResponse}
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /goals [get]
 func ListGoalsHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -195,6 +206,18 @@ func ListGoalsHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// GetGoalHandler godoc
+// @Summary Get goal details
+// @Description Get detailed goal information with milestones
+// @Tags Goals
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param id path int true "Goal ID"
+// @Success 200 {object} helper.Response{data=GoalDetailResponse}
+// @Failure 401 {object} helper.Response
+// @Failure 404 {object} helper.Response
+// @Router /goals/{id} [get]
 func GetGoalHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -211,6 +234,19 @@ func GetGoalHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// CreateGoalHandler godoc
+// @Summary Create goal
+// @Description Create a new goal
+// @Tags Goals
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param request body CreateGoalRequest true "Goal details"
+// @Success 201 {object} helper.Response{data=GoalResponse}
+// @Failure 400 {object} helper.Response
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /goals [post]
 func CreateGoalHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -231,6 +267,20 @@ func CreateGoalHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// UpdateGoalHandler godoc
+// @Summary Update goal
+// @Description Update existing goal
+// @Tags Goals
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param id path int true "Goal ID"
+// @Param request body UpdateGoalRequest true "Goal updates"
+// @Success 200 {object} helper.Response{data=GoalResponse}
+// @Failure 400 {object} helper.Response
+// @Failure 401 {object} helper.Response
+// @Failure 404 {object} helper.Response
+// @Router /goals/{id} [put]
 func UpdateGoalHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -253,6 +303,18 @@ func UpdateGoalHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// DeleteGoalHandler godoc
+// @Summary Delete goal
+// @Description Delete a goal
+// @Tags Goals
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param id path int true "Goal ID"
+// @Success 200 {object} helper.Response
+// @Failure 401 {object} helper.Response
+// @Failure 404 {object} helper.Response
+// @Router /goals/{id} [delete]
 func DeleteGoalHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -268,6 +330,20 @@ func DeleteGoalHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// UpdateContributionHandler godoc
+// @Summary Update monthly contribution
+// @Description Update monthly contribution for a goal
+// @Tags Goals
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param id path int true "Goal ID"
+// @Param request body UpdateContributionRequest true "Contribution amount"
+// @Success 200 {object} helper.Response{data=GoalResponse}
+// @Failure 400 {object} helper.Response
+// @Failure 401 {object} helper.Response
+// @Failure 404 {object} helper.Response
+// @Router /goals/{id}/contribution [put]
 func UpdateContributionHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")

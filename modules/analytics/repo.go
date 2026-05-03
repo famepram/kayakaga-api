@@ -17,7 +17,7 @@ func NewRepository(db *gorm.DB) Repository {
 
 func (r *repo) GetBudgetBreakdown(userID uint, period, accountID string) (*BudgetData, error) {
 	query := r.db.Table("transactions t").
-		Select("t.category_id, c.name as category_name, SUM(CASE WHEN t.amount > 0 THEN t.amount ELSE 0 END) as total, COUNT(*) as count").
+		Select("t.category_id, c.name as category_name, SUM(t.amount) as total, COUNT(*) as count").
 		Joins("LEFT JOIN m_transaction_categories c ON t.category_id = c.id").
 		Where("t.user_id = ?", userID)
 
@@ -134,7 +134,7 @@ func (r *repo) GetAnomalies(userID uint, period, accountID string) ([]AnomalyDat
 	query := r.db.Table("transactions t").
 		Select("t.id, t.merchant, t.amount, t.date, c.name as category_name").
 		Joins("LEFT JOIN m_transaction_categories c ON t.category_id = c.id").
-		Where("t.user_id = ?", userID)
+		Where("t.user_id = ? AND t.amount < 0 AND t.category_id != 9", userID)
 
 	query = r.applyPeriodFilter(query, period)
 	if accountID != "" {
@@ -310,27 +310,40 @@ func (r *repo) GetGoalRecommendation(goalID, userID uint, targetMonths *int, new
 
 	currentEtaDate := time.Now().UTC().AddDate(0, currentEta, 0).Format("2006-01-02")
 
+	// Generate 3 automatic scenarios
 	scenarios := []Scenario{}
 
-	if newContribution != nil && *newContribution > 0 {
-		newEta := int((remaining + *newContribution - 1) / *newContribution)
+	// Scenario 1: Current contribution
+	scenarios = append(scenarios, Scenario{
+		MonthlyContribution: goal.MonthlyContribution,
+		EtaMonths:           currentEta,
+		MonthsFaster:        0,
+		EtaDate:             currentEtaDate,
+	})
+
+	// Scenario 2: Current + 500,000
+	if goal.MonthlyContribution > 0 {
+		increasedAmount := goal.MonthlyContribution + 500000
+		newEta := int((remaining + increasedAmount - 1) / increasedAmount)
 		newEtaDate := time.Now().UTC().AddDate(0, newEta, 0)
 		scenarios = append(scenarios, Scenario{
-			MonthlyContribution: *newContribution,
+			MonthlyContribution: increasedAmount,
 			EtaMonths:           newEta,
 			MonthsFaster:        currentEta - newEta,
 			EtaDate:             newEtaDate.Format("2006-01-02"),
 		})
 	}
 
-	if targetMonths != nil && *targetMonths > 0 {
-		required := (remaining + int64(*targetMonths) - 1) / int64(*targetMonths)
-		targetDate := time.Now().UTC().AddDate(0, *targetMonths, 0)
+	// Scenario 3: Current + 1,000,000
+	if goal.MonthlyContribution > 0 {
+		increasedAmount := goal.MonthlyContribution + 1000000
+		newEta := int((remaining + increasedAmount - 1) / increasedAmount)
+		newEtaDate := time.Now().UTC().AddDate(0, newEta, 0)
 		scenarios = append(scenarios, Scenario{
-			MonthlyContribution: required,
-			EtaMonths:           *targetMonths,
-			MonthsFaster:        currentEta - *targetMonths,
-			EtaDate:             targetDate.Format("2006-01-02"),
+			MonthlyContribution: increasedAmount,
+			EtaMonths:           newEta,
+			MonthsFaster:        currentEta - newEta,
+			EtaDate:             newEtaDate.Format("2006-01-02"),
 		})
 	}
 

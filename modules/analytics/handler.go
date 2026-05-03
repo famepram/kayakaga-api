@@ -129,6 +129,19 @@ func (h *handler) GetGoalRecommendation(goalID, userID uint, targetMonths *int, 
 	}, nil
 }
 
+// GetBudgetHandler godoc
+// @Summary Get budget analytics
+// @Description Get budget breakdown with income vs expenses and savings rate
+// @Tags Analytics
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param period query string false "Period filter (today, week, month, last_month, year)" Enums(today, week, month, last_month, year)
+// @Param account_id query string false "Filter by account ID"
+// @Success 200 {object} helper.Response{data=BudgetResponse}
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /analytics/budget [get]
 func GetBudgetHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -145,6 +158,18 @@ func GetBudgetHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// GetCompareHandler godoc
+// @Summary Get period comparison
+// @Description Compare financial metrics between current and previous period
+// @Tags Analytics
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param period query string false "Period filter (month, year)" Enums(month, year)
+// @Success 200 {object} helper.Response{data=CompareResponse}
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /analytics/compare [get]
 func GetCompareHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -160,6 +185,19 @@ func GetCompareHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// GetAnomaliesHandler godoc
+// @Summary Get spending anomalies
+// @Description Detect unusual spending patterns or large transactions
+// @Tags Analytics
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param period query string false "Period filter (week, month, year)" Enums(week, month, year)
+// @Param threshold query number false "Threshold amount (default: 1000000)"
+// @Success 200 {object} helper.Response{data=[]Anomaly}
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /analytics/anomalies [get]
 func GetAnomaliesHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -176,6 +214,17 @@ func GetAnomaliesHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// GetRecurringHandler godoc
+// @Summary Get recurring transactions
+// @Description Get list of recurring transactions
+// @Tags Analytics
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Success 200 {object} helper.Response{data=[]RecurringTransaction}
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /analytics/recurring [get]
 func GetRecurringHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -191,6 +240,17 @@ func GetRecurringHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// GetSavingsSuggestionHandler godoc
+// @Summary Get savings suggestions
+// @Description Get AI-powered savings suggestions based on spending patterns
+// @Tags Analytics
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Success 200 {object} helper.Response{data=[]SavingsSuggestion}
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /analytics/savings-suggestions [get]
 func GetSavingsSuggestionHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")

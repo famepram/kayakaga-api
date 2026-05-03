@@ -4,6 +4,7 @@ import (
 	"errors"
 	"kayakaga-api/utils/helper"
 	"math"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -69,23 +70,25 @@ func (h *handler) SimulateInvestment(monthlyAmount, annualReturnPct, years int) 
 // @Router /simulate/investment [get]
 func SimulateInvestmentHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		monthlyAmount := c.Query("monthly_amount")
-		annualReturnPct := c.Query("annual_return_pct")
-		years := c.Query("years")
+		monthlyAmountStr := c.Query("monthly_amount")
+		annualReturnPctStr := c.Query("annual_return_pct")
+		yearsStr := c.Query("years")
 
-		var ma, arp, y int
-		if _, err := c.GetQuery("monthly_amount"); err && monthlyAmount != "" {
-			ma = c.GetInt("monthly_amount")
-		}
-		if _, err := c.GetQuery("annual_return_pct"); err && annualReturnPct != "" {
-			arp = c.GetInt("annual_return_pct")
-		}
-		if _, err := c.GetQuery("years"); err && years != "" {
-			y = c.GetInt("years")
+		ma, err := strconv.Atoi(monthlyAmountStr)
+		if err != nil || ma <= 0 {
+			helper.ErrorResponse(c, 400, "INVALID_INPUT", "monthly_amount must be a positive integer")
+			return
 		}
 
-		if ma <= 0 || arp <= 0 || y <= 0 {
-			helper.ErrorResponse(c, 400, "INVALID_INPUT", "All parameters must be positive integers")
+		arp, err := strconv.Atoi(annualReturnPctStr)
+		if err != nil || arp <= 0 {
+			helper.ErrorResponse(c, 400, "INVALID_INPUT", "annual_return_pct must be a positive integer")
+			return
+		}
+
+		y, err := strconv.Atoi(yearsStr)
+		if err != nil || y <= 0 {
+			helper.ErrorResponse(c, 400, "INVALID_INPUT", "years must be a positive integer")
 			return
 		}
 

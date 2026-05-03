@@ -128,6 +128,17 @@ func (h *handler) DeleteAccount(id, userID uint) error {
 	return h.repo.DeleteAccount(id, userID)
 }
 
+// ListAccountsHandler godoc
+// @Summary List accounts
+// @Description Get list of user accounts
+// @Tags Accounts
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Success 200 {object} helper.Response{data=[]AccountResponse}
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /accounts [get]
 func ListAccountsHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -142,6 +153,17 @@ func ListAccountsHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// GetBalancesHandler godoc
+// @Summary Get account balances
+// @Description Get balances for all accounts with grand total
+// @Tags Accounts
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Success 200 {object} helper.Response{data=BalancesResponse}
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /accounts/balances [get]
 // GetBalancesHandler godoc
 // @Summary Get account balances
 // @Description Get balances for all accounts with grand total
@@ -179,6 +201,19 @@ func GetBalancesHandler(uc UseCase) gin.HandlerFunc {
 // @Failure 400 {object} helper.Response
 // @Failure 401 {object} helper.Response
 // @Router /accounts [post]
+// CreateAccountHandler godoc
+// @Summary Create account
+// @Description Create a new account
+// @Tags Accounts
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param request body CreateAccountRequest true "Account details"
+// @Success 201 {object} helper.Response{data=AccountResponse}
+// @Failure 400 {object} helper.Response
+// @Failure 401 {object} helper.Response
+// @Failure 500 {object} helper.Response
+// @Router /accounts [post]
 func CreateAccountHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -199,6 +234,20 @@ func CreateAccountHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// UpdateAccountHandler godoc
+// @Summary Update account
+// @Description Update existing account
+// @Tags Accounts
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param id path int true "Account ID"
+// @Param request body UpdateAccountRequest true "Account updates"
+// @Success 200 {object} helper.Response{data=AccountResponse}
+// @Failure 400 {object} helper.Response
+// @Failure 401 {object} helper.Response
+// @Failure 404 {object} helper.Response
+// @Router /accounts/{id} [put]
 func UpdateAccountHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")
@@ -221,6 +270,18 @@ func UpdateAccountHandler(uc UseCase) gin.HandlerFunc {
 	}
 }
 
+// DeleteAccountHandler godoc
+// @Summary Delete account
+// @Description Delete an account
+// @Tags Accounts
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param id path int true "Account ID"
+// @Success 200 {object} helper.Response
+// @Failure 401 {object} helper.Response
+// @Failure 404 {object} helper.Response
+// @Router /accounts/{id} [delete]
 func DeleteAccountHandler(uc UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("user_id")

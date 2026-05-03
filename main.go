@@ -56,6 +56,9 @@ import (
 // @tag.name Simulation
 // @tag.description Investment simulation
 
+// @tag.name Master Data
+// @tag.description Master data endpoints
+
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found, using environment variables")

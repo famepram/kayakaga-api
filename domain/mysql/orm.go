@@ -136,7 +136,7 @@ type Transaction struct {
 	CategoryID    uint
 	SourceID      uint                 `gorm:"default:1"`
 	Date          time.Time            `gorm:"type:date"`
-	Time          *time.Time           `gorm:"type:time"`
+	Time          *string              `gorm:"type:time"`
 	Merchant      string               `gorm:"size:200"`
 	Amount        int64
 	Notes         string               `gorm:"type:text"`

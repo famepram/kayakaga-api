@@ -229,4 +229,4 @@ CREATE TABLE `goal_milestones` (
   PRIMARY KEY (`id`),
   KEY `idx_milestones_goal` (`goal_id`),
   CONSTRAINT `fk_milestones_goal` FOREIGN KEY (`goal_id`) REFERENCES `goals` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicoede_ci

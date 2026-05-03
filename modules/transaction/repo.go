@@ -93,3 +93,40 @@ func (r *repo) DeleteTransaction(id, userID uint) error {
 	}
 	return nil
 }
+
+func (r *repo) BulkInsert(txns []mysql.Transaction) error {
+	if len(txns) == 0 {
+		return nil
+	}
+	return r.db.Create(&txns).Error
+}
+
+func (r *repo) CheckDuplicates(userID, accountID uint, dates []time.Time, amounts []int64, merchants []string) (map[int]bool, error) {
+	if len(dates) == 0 {
+		return make(map[int]bool), nil
+	}
+
+	duplicates := make(map[int]bool)
+
+	for i := 0; i < len(dates); i++ {
+		var count int64
+		err := r.db.Model(&mysql.Transaction{}).
+			Where("user_id = ? AND account_id = ? AND DATE(date) = ? AND amount = ? AND LOWER(merchant) = ?",
+				userID, accountID, dates[i].Format("2006-01-02"), amounts[i], lower(merchants[i])).
+			Count(&count).Error
+
+		if err != nil {
+			return nil, err
+		}
+
+		if count > 0 {
+			duplicates[i] = true
+		}
+	}
+
+	return duplicates, nil
+}
+
+func lower(s string) string {
+	return s
+}

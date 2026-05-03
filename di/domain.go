@@ -5,6 +5,7 @@ import (
 	"kayakaga-api/modules/analytics"
 	"kayakaga-api/modules/auth"
 	"kayakaga-api/modules/goal"
+	"kayakaga-api/modules/masters"
 	"kayakaga-api/modules/simulate"
 	"kayakaga-api/modules/transaction"
 	"kayakaga-api/modules/user"
@@ -20,6 +21,7 @@ type Container struct {
 	Goal       goal.UseCase
 	Analytics  analytics.UseCase
 	Simulate   simulate.UseCase
+	Masters    masters.UseCase
 }
 
 func InitializeContainer(db *gorm.DB) *Container {
@@ -29,6 +31,7 @@ func InitializeContainer(db *gorm.DB) *Container {
 	transactionRepo := transaction.NewRepository(db)
 	goalRepo := goal.NewRepository(db)
 	analyticsRepo := analytics.NewRepository(db)
+	mastersRepo := masters.NewRepository(db)
 
 	return &Container{
 		Auth:       auth.NewUseCase(authRepo),
@@ -38,5 +41,6 @@ func InitializeContainer(db *gorm.DB) *Container {
 		Goal:       goal.NewUseCase(goalRepo),
 		Analytics:  analytics.NewUseCase(analyticsRepo),
 		Simulate:   simulate.NewUseCase(),
+		Masters:    masters.NewUseCase(mastersRepo),
 	}
 }
