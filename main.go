@@ -8,6 +8,7 @@ import (
 	"os"
 
 	_ "kayakaga-api/docs"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
