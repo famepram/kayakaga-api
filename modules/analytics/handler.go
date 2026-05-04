@@ -221,7 +221,7 @@ func GetAnomaliesHandler(uc UseCase) gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Security Bearer
-// @Success 200 {object} helper.Response{data=[]RecurringTransaction}
+// @Success 200 {object} helper.Response{data=[]RecurringResponse}
 // @Failure 401 {object} helper.Response
 // @Failure 500 {object} helper.Response
 // @Router /analytics/recurring [get]
