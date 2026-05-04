@@ -247,7 +247,7 @@ func GetRecurringHandler(uc UseCase) gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Security Bearer
-// @Success 200 {object} helper.Response{data=[]SavingsSuggestion}
+// @Success 200 {object} helper.Response{data=SavingsSuggestionResponse}
 // @Failure 401 {object} helper.Response
 // @Failure 500 {object} helper.Response
 // @Router /analytics/savings-suggestions [get]
