@@ -9,11 +9,12 @@ type CreateAccountRequest struct {
 }
 
 type UpdateAccountRequest struct {
-	Name          string `json:"name"`
-	AccountTypeID uint   `json:"account_type_id"`
-	Balance       int64  `json:"balance"`
-	Color         string `json:"color"`
-	IsPrimary     int8   `json:"is_primary"`
+	Name           string `json:"name"`
+	AccountTypeID  uint   `json:"account_type_id"`
+	Balance        int64  `json:"balance"`
+	BalanceUpdated bool   `json:"balance_updated"`
+	Color          string `json:"color"`
+	IsPrimary      int8   `json:"is_primary"`
 }
 
 type AccountResponse struct {

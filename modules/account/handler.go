@@ -101,7 +101,7 @@ func (h *handler) UpdateAccount(id, userID uint, req *UpdateAccountRequest) (*Ac
 	if req.AccountTypeID > 0 {
 		account.AccountTypeID = req.AccountTypeID
 	}
-	if req.Balance != 0 {
+	if req.BalanceUpdated {
 		account.Balance = req.Balance
 	}
 	if req.Color != "" {

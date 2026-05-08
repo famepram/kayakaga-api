@@ -6,6 +6,7 @@ import (
 
 type Repository interface {
 	GetUserByID(userID uint) (*mysql.User, error)
+	GetEmailByUserID(userID uint) (string, error)
 	UpdateUser(user *mysql.User) error
 }
 

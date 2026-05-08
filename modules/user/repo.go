@@ -28,6 +28,15 @@ func (r *repo) GetUserByID(userID uint) (*mysql.User, error) {
 	return &user, nil
 }
 
+func (r *repo) GetEmailByUserID(userID uint) (string, error) {
+	var cred mysql.UserCredential
+	err := r.db.Where("user_id = ?", userID).First(&cred).Error
+	if err != nil {
+		return "", err
+	}
+	return cred.Email, nil
+}
+
 func (r *repo) UpdateUser(user *mysql.User) error {
 	return r.db.Save(user).Error
 }

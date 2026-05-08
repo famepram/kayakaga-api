@@ -21,10 +21,12 @@ func (h *handler) GetProfile(userID uint) (*ProfileResponse, error) {
 		return nil, err
 	}
 
+	email, _ := h.repo.GetEmailByUserID(userID)
+
 	return &ProfileResponse{
 		ID:                     user.ID,
 		Name:                   user.Name,
-		Email:                  user.Email,
+		Email:                  email,
 		City:                   user.City,
 		Profession:             user.Profession,
 		DependentID:            user.DependentID,
