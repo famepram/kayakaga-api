@@ -31,10 +31,12 @@ func (h *handler) Register(req *RegisterRequest) (*AuthResponse, error) {
 	}
 
 	user := &mysql.User{
-		Name:      req.Name,
-		Currency:  "IDR",
-		CreatedAt: time.Now().UTC(),
-		UpdatedAt: time.Now().UTC(),
+		Name:          req.Name,
+		Currency:      "IDR",
+		DependentID:   1,
+		RiskProfileID: 1,
+		CreatedAt:     time.Now().UTC(),
+		UpdatedAt:     time.Now().UTC(),
 	}
 
 	if err := h.repo.CreateUser(user); err != nil {

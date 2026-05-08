@@ -13,6 +13,7 @@ type UpdateProfileRequest struct {
 type ProfileResponse struct {
 	ID                     uint   `json:"id"`
 	Name                   string `json:"name"`
+	Email                  string `json:"email"`
 	City                   string `json:"city"`
 	Profession             string `json:"profession"`
 	DependentID            uint   `json:"dependent_id"`

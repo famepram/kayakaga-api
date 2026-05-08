@@ -24,6 +24,7 @@ func (h *handler) GetProfile(userID uint) (*ProfileResponse, error) {
 	return &ProfileResponse{
 		ID:                     user.ID,
 		Name:                   user.Name,
+		Email:                  user.Email,
 		City:                   user.City,
 		Profession:             user.Profession,
 		DependentID:            user.DependentID,
